@@ -21,6 +21,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from app.db.base import Base
+from app.models import user, ticket
 from app.core.config import settings
 
 target_metadata = Base.metadata

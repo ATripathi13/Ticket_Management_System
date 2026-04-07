@@ -9,3 +9,5 @@ pydantic
 pydantic-settings
 pytest
 httpx
+email-validator
+python-multipart

@@ -5,7 +5,7 @@ from app.db.session import get_db
 from app.api.deps import get_current_user
 from app.models.user import User
 from app.schemas.ticket import TicketCreate, TicketUpdate, TicketStatusUpdate, TicketResponse
-from app.crud import crud_ticket
+from app.crud import crud_ticket, crud_user
 
 router = APIRouter()
 
@@ -56,6 +56,11 @@ def update_ticket(
         raise HTTPException(status_code=404, detail="Ticket not found")
     if ticket.created_by != current_user.id:
         raise HTTPException(status_code=403, detail="Not enough permissions")
+    if ticket_in.assigned_to is not None:
+        user = crud_user.get_user(db=db, user_id=ticket_in.assigned_to)
+        if not user:
+            raise HTTPException(status_code=400, detail="Assigned user does not exist")
+            
     return crud_ticket.update_ticket(db=db, db_ticket=ticket, ticket_in=ticket_in)
 
 @router.patch("/{ticket_id}/status", response_model=TicketResponse)
