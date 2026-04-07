@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from app.core.config import settings
 from app.utils.logger import setup_logger
-from app.api.routes import auth, tickets, admin
+from app.api.routes import auth, tickets, admin, ai
 
 logger = setup_logger(__name__)
 
@@ -14,6 +14,7 @@ app = FastAPI(
 app.include_router(auth.router, prefix=f"{settings.API_V1_STR}/auth", tags=["auth"])
 app.include_router(tickets.router, prefix=f"{settings.API_V1_STR}/tickets", tags=["tickets"])
 app.include_router(admin.router, prefix=f"{settings.API_V1_STR}/admin", tags=["admin"])
+app.include_router(ai.router, prefix=f"{settings.API_V1_STR}/ai", tags=["ai"])
 
 @app.get("/")
 def root():
