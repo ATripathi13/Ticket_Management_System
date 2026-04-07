@@ -1,0 +1,1038 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Ticket Management System API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/auth/register": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Register",
+                "operationId": "register_api_v1_auth_register_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/login": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Login",
+                "operationId": "login_api_v1_auth_login_post",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Body_login_api_v1_auth_login_post"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/tickets/": {
+            "post": {
+                "tags": [
+                    "tickets"
+                ],
+                "summary": "Create Ticket",
+                "operationId": "create_ticket_api_v1_tickets__post",
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TicketCreate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TicketResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "tickets"
+                ],
+                "summary": "Get Tickets",
+                "operationId": "get_tickets_api_v1_tickets__get",
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "skip",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "title": "Skip"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 10,
+                            "title": "Limit"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "title": "Status"
+                        }
+                    },
+                    {
+                        "name": "priority",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "title": "Priority"
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ],
+                            "title": "Category"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TicketResponse"
+                                    },
+                                    "title": "Response Get Tickets Api V1 Tickets  Get"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/tickets/{ticket_id}": {
+            "get": {
+                "tags": [
+                    "tickets"
+                ],
+                "summary": "Get Ticket",
+                "operationId": "get_ticket_api_v1_tickets__ticket_id__get",
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "ticket_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "title": "Ticket Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TicketResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "tickets"
+                ],
+                "summary": "Update Ticket",
+                "operationId": "update_ticket_api_v1_tickets__ticket_id__put",
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "ticket_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "title": "Ticket Id"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TicketUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TicketResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "tickets"
+                ],
+                "summary": "Delete Ticket",
+                "operationId": "delete_ticket_api_v1_tickets__ticket_id__delete",
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "ticket_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "title": "Ticket Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/tickets/{ticket_id}/status": {
+            "patch": {
+                "tags": [
+                    "tickets"
+                ],
+                "summary": "Update Ticket Status",
+                "operationId": "update_ticket_status_api_v1_tickets__ticket_id__status_patch",
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "ticket_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "title": "Ticket Id"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TicketStatusUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TicketResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/admin/tickets": {
+            "get": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "Get All Tickets",
+                "description": "Retrieve all tickets across all users. Admin only.",
+                "operationId": "get_all_tickets_api_v1_admin_tickets_get",
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "skip",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "title": "Skip"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 100,
+                            "title": "Limit"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TicketResponse"
+                                    },
+                                    "title": "Response Get All Tickets Api V1 Admin Tickets Get"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/admin/stats": {
+            "get": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "Get Stats",
+                "description": "Retrieve ticket statistics: counts by status, priority, etc.",
+                "operationId": "get_stats_api_v1_admin_stats_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/ai/query": {
+            "post": {
+                "tags": [
+                    "ai"
+                ],
+                "summary": "Query Ai",
+                "description": "Experimental Rule-based AI Assistant endpoint.\nPass in natural language queries like:\n- \"What is the status of ticket 12?\"\n- \"Show all high priority open tickets\"\n- \"Summarize ticket 5\"\n- \"Which tickets were created by user 1?\"",
+                "operationId": "query_ai_api_v1_ai_query_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AIQuery"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Query Ai Api V1 Ai Query Post"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "OAuth2PasswordBearer": []
+                    }
+                ]
+            }
+        },
+        "/": {
+            "get": {
+                "summary": "Root",
+                "operationId": "root__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AIQuery": {
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "title": "Query"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "query"
+                ],
+                "title": "AIQuery"
+            },
+            "Body_login_api_v1_auth_login_post": {
+                "properties": {
+                    "grant_type": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "pattern": "^password$"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Grant Type"
+                    },
+                    "username": {
+                        "type": "string",
+                        "title": "Username"
+                    },
+                    "password": {
+                        "type": "string",
+                        "format": "password",
+                        "title": "Password"
+                    },
+                    "scope": {
+                        "type": "string",
+                        "title": "Scope",
+                        "default": ""
+                    },
+                    "client_id": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Client Id"
+                    },
+                    "client_secret": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "format": "password",
+                        "title": "Client Secret"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "username",
+                    "password"
+                ],
+                "title": "Body_login_api_v1_auth_login_post"
+            },
+            "HTTPValidationError": {
+                "properties": {
+                    "detail": {
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
+                        "type": "array",
+                        "title": "Detail"
+                    }
+                },
+                "type": "object",
+                "title": "HTTPValidationError"
+            },
+            "TicketCreate": {
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "title": "Title"
+                    },
+                    "description": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Description"
+                    },
+                    "priority": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/TicketPriority"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "default": "medium"
+                    },
+                    "category": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Category"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "title"
+                ],
+                "title": "TicketCreate"
+            },
+            "TicketPriority": {
+                "type": "string",
+                "enum": [
+                    "low",
+                    "medium",
+                    "high"
+                ],
+                "title": "TicketPriority"
+            },
+            "TicketResponse": {
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "title": "Title"
+                    },
+                    "description": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Description"
+                    },
+                    "priority": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/TicketPriority"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "default": "medium"
+                    },
+                    "category": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Category"
+                    },
+                    "id": {
+                        "type": "integer",
+                        "title": "Id"
+                    },
+                    "status": {
+                        "$ref": "#/components/schemas/TicketStatus"
+                    },
+                    "created_by": {
+                        "type": "integer",
+                        "title": "Created By"
+                    },
+                    "assigned_to": {
+                        "anyOf": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Assigned To"
+                    },
+                    "created_at": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Created At"
+                    },
+                    "updated_at": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Updated At"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "title",
+                    "id",
+                    "status",
+                    "created_by"
+                ],
+                "title": "TicketResponse"
+            },
+            "TicketStatus": {
+                "type": "string",
+                "enum": [
+                    "open",
+                    "in_progress",
+                    "closed"
+                ],
+                "title": "TicketStatus"
+            },
+            "TicketStatusUpdate": {
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/TicketStatus"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "status"
+                ],
+                "title": "TicketStatusUpdate"
+            },
+            "TicketUpdate": {
+                "properties": {
+                    "title": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Title"
+                    },
+                    "description": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Description"
+                    },
+                    "status": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/TicketStatus"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "priority": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/TicketPriority"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "category": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Category"
+                    },
+                    "assigned_to": {
+                        "anyOf": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Assigned To"
+                    }
+                },
+                "type": "object",
+                "title": "TicketUpdate"
+            },
+            "UserCreate": {
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "title": "Email"
+                    },
+                    "password": {
+                        "type": "string",
+                        "title": "Password"
+                    },
+                    "role": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/UserRole"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "default": "user"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "email",
+                    "password"
+                ],
+                "title": "UserCreate"
+            },
+            "UserResponse": {
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "title": "Email"
+                    },
+                    "id": {
+                        "type": "integer",
+                        "title": "Id"
+                    },
+                    "role": {
+                        "$ref": "#/components/schemas/UserRole"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "email",
+                    "id",
+                    "role"
+                ],
+                "title": "UserResponse"
+            },
+            "UserRole": {
+                "type": "string",
+                "enum": [
+                    "user",
+                    "admin"
+                ],
+                "title": "UserRole"
+            },
+            "ValidationError": {
+                "properties": {
+                    "loc": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Location"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Error Type"
+                    },
+                    "input": {
+                        "title": "Input"
+                    },
+                    "ctx": {
+                        "type": "object",
+                        "title": "Context"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "title": "ValidationError"
+            }
+        },
+        "securitySchemes": {
+            "OAuth2PasswordBearer": {
+                "type": "oauth2",
+                "flows": {
+                    "password": {
+                        "scopes": {},
+                        "tokenUrl": "/api/v1/auth/login"
+                    }
+                }
+            }
+        }
+    }
+}
